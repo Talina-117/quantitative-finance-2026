@@ -4,7 +4,7 @@
 
 ## 📊 在线可视化报告
 
-项目通过 GitHub Pages 部署了交互式股票分析报告：
+项目通过 GitHub Pages 部署了股票分析报告：
 
 👉 **[兆易创新(603986.SH) 综合分析报告](https://talina-117.github.io/quantitative-finance-2026/)**
 
@@ -40,19 +40,7 @@
 ```
 ├── index.html                        # 兆易创新综合分析报告（GitHub Pages 部署）
 ├── README.md                          # 项目说明
-├── LICENSE                            # MIT 许可证
-├── zhaoyi_603986_20250701_20260630_daily.csv   # 兆易创新历史日线数据
-├── zhaoyi_603986_20250701_20260630_info.md      # 兆易创新基本信息
-├── zhaoyi_603986_20250701_20260630_kline.png    # K线走势图
-├── zhaoyi_603986_20250701_20260630_close.png    # 收盘价曲线图
-├── zhaoyi_603986_bollinger.png                  # 布林带指标图
-├── zhaoyi_603986_macd.png                       # MACD指标图
-├── zhaoyi_603986_obv.png                        # OBV能量潮指标图
-├── zhaoyi_603986_rsi.png                        # RSI指标图
-├── 量化交易优势与基本概念.md                     # 量化交易学习笔记
-├── 兆易创新技术指标分析.md                       # 技术指标分析报告 Markdown 版
-├── zhaoyi_indicator_analysis.py                 # 技术指标分析脚本
-└── generate_word_reports.py                     # Word 报告生成脚本
+└── LICENSE                            # Apache 2.0 许可证
 ```
 
 ## 技术栈
