@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>兆易创新(603986.SH) 基本面与技术面分析报告</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #f0f2f5; color: #1a1a2e; line-height: 1.7; padding: 20px;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* 头部 */
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff; padding: 32px 36px; border-radius: 16px; margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(102,126,234,0.3);
+  }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { font-size: 15px; opacity: 0.85; }
+  .header .meta { display: flex; gap: 24px; margin-top: 16px; font-size: 13px; opacity: 0.9; }
+  .header .meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* 卡片 */
+  .card {
+    background: #fff; border-radius: 14px; padding: 28px; margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .card h2 {
+    font-size: 20px; color: #2d3748; margin-bottom: 16px;
+    padding-bottom: 10px; border-bottom: 2px solid #e2e8f0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card h3 { font-size: 16px; color: #4a5568; margin: 18px 0 10px; }
+
+  /* 数据网格 */
+  .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .data-item {
+    background: #f7fafc; border-radius: 10px; padding: 14px 16px;
+    border-left: 3px solid #cbd5e0;
+  }
+  .data-item .label { font-size: 12px; color: #718096; margin-bottom: 4px; }
+  .data-item .value { font-size: 18px; font-weight: 700; color: #2d3748; }
+  .data-item .extra { font-size: 12px; color: #718096; margin-top: 2px; }
+  .data-item.up { border-left-color: #48bb78; }
+  .data-item.up .value { color: #2f855a; }
+  .data-item.down { border-left-color: #f56565; }
+  .data-item.down .value { color: #c53030; }
+  .data-item.warn { border-left-color: #ed8936; }
+  .data-item.warn .value { color: #c05621; }
+
+  /* 表格 */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th, td { padding: 10px 14px; text-align: left; font-size: 14px; }
+  th { background: #f7fafc; color: #4a5568; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+  td { border-bottom: 1px solid #edf2f7; }
+  tr:hover td { background: #f7fafc; }
+
+  /* 评分 */
+  .score-board {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 16px 0;
+  }
+  .score-item {
+    text-align: center; padding: 16px 8px; border-radius: 12px; background: #f7fafc;
+  }
+  .score-item .score-label { font-size: 12px; color: #718096; margin-bottom: 6px; }
+  .score-item .score-value { font-size: 28px; font-weight: 800; }
+  .score-item .score-max { font-size: 13px; color: #a0aec0; }
+  .score-item.s-high .score-value { color: #2f855a; }
+  .score-item.s-mid .score-value { color: #d69e2e; }
+  .score-item.s-low .score-value { color: #c53030; }
+
+  .total-score {
+    text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+    border-radius: 12px; margin-top: 16px;
+  }
+  .total-score .label { font-size: 14px; color: #4a5568; }
+  .total-score .value { font-size: 36px; font-weight: 800; color: #6b46c1; }
+
+  /* 标签 */
+  .tag {
+    display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    margin: 2px;
+  }
+  .tag.green { background: #c6f6d5; color: #22543d; }
+  .tag.red { background: #fed7d7; color: #742a2a; }
+  .tag.yellow { background: #feebc8; color: #7b341e; }
+  .tag.blue { background: #bee3f8; color: #2a4365; }
+
+  /* 提示框 */
+  .alert {
+    padding: 14px 18px; border-radius: 10px; margin: 12px 0; font-size: 14px;
+  }
+  .alert.warning { background: #fffaf0; border-left: 4px solid #ed8936; color: #7c2d12; }
+  .alert.danger { background: #fff5f5; border-left: 4px solid #f56565; color: #742a2a; }
+  .alert.info { background: #ebf8ff; border-left: 4px solid #4299e1; color: #2a4365; }
+  .alert.success { background: #f0fff4; border-left: 4px solid #48bb78; color: #22543d; }
+
+  /* 走势图 */
+  .price-chart { width: 100%; height: 280px; margin: 16px 0; }
+
+  /* 结论 */
+  .conclusion {
+    background: linear-gradient(135deg, #f6ad5520 0%, #ed893620 100%);
+    border: 2px solid #ed893640; border-radius: 14px; padding: 24px; margin-top: 20px;
+  }
+  .conclusion h3 { color: #c05621; margin-bottom: 12px; }
+
+  .footer { text-align: center; padding: 24px; font-size: 12px; color: #a0aec0; }
+  .footer p { margin: 4px 0; }
+
+  .section-divider { height: 1px; background: #e2e8f0; margin: 20px 0; }
+
+  ul.clean { list-style: none; padding: 0; }
+  ul.clean li { padding: 6px 0; font-size: 14px; }
+  ul.clean li::before { content: "▸ "; color: #667eea; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 头部 -->
+  <div class="header">
+    <h1>兆易创新 (603986.SH) 综合分析报告</h1>
+    <div class="subtitle">基本面 + 技术面 多维度分析</div>
+    <div class="meta">
+      <span>📅 数据日期：2026-07-02</span>
+      <span>💰 最新收盘价：694.81 元</span>
+      <span>📉 当日涨跌：-10.00%（跌停）</span>
+      <span>🏭 行业：半导体/存储芯片</span>
+    </div>
+  </div>
+
+  <!-- 核心估值数据 -->
+  <div class="card">
+    <h2>📊 核心数据卡片</h2>
+    <div class="data-grid">
+      <div class="data-item">
+        <div class="label">最新收盘价</div>
+        <div class="value">694.81</div>
+        <div class="extra">2026-07-02 跌停</div>
+      </div>
+      <div class="data-item">
+        <div class="label">总市值</div>
+        <div class="value">4876亿</div>
+        <div class="extra">流通市值 4645亿</div>
+      </div>
+      <div class="data-item warn">
+        <div class="label">PE (TTM)</div>
+        <div class="value">169.6x</div>
+        <div class="extra">显著偏高</div>
+      </div>
+      <div class="data-item warn">
+        <div class="label">PB</div>
+        <div class="value">19.29x</div>
+        <div class="extra">显著偏高</div>
+      </div>
+      <div class="data-item">
+        <div class="label">PS (TTM)</div>
+        <div class="value">42.5x</div>
+        <div class="extra">高于行业均值</div>
+      </div>
+      <div class="data-item">
+        <div class="label">股息率 (TTM)</div>
+        <div class="value">0.108%</div>
+        <div class="extra">极低</div>
+      </div>
+      <div class="data-item">
+        <div class="label">总股本</div>
+        <div class="value">7.02亿股</div>
+        <div class="extra">流通 6.68亿股</div>
+      </div>
+      <div class="data-item">
+        <div class="label">换手率</div>
+        <div class="value">6.77%</div>
+        <div class="extra">交投活跃</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 基本面分析 -->
+  <div class="card">
+    <h2>🏦 基本面分析</h2>
+
+    <h3>一、公司概况</h3>
+    <p style="font-size:14px; color:#4a5568; margin-bottom:12px;">
+      兆易创新（GigaDevice）是国内领先的Fabless半导体设计公司，核心业务涵盖<b>NOR Flash存储芯片</b>、<b>MCU微控制器</b>和<b>传感器</b>三大板块。
+      公司为全球NOR Flash排名前三、国内32位ARM MCU头部企业，实际控制人为朱一明/金晓冬。研发人员占比超65%，2025年研发投入14.04亿元（占营收15.26%）。
+    </p>
+
+    <h3>二、核心财务数据（2024-2025年）</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>财务指标</th>
+          <th>2024年</th>
+          <th>2025年</th>
+          <th>同比变化</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>营业收入</td>
+          <td>73.56亿元</td>
+          <td>92.03亿元</td>
+          <td><span class="tag green">+25.12%</span></td>
+        </tr>
+        <tr>
+          <td>归母净利润</td>
+          <td>11.03亿元</td>
+          <td>16.48亿元</td>
+          <td><span class="tag green">+49.47%</span></td>
+        </tr>
+        <tr>
+          <td>扣非归母净利润</td>
+          <td>10.30亿元</td>
+          <td>14.69亿元</td>
+          <td><span class="tag green">+42.57%</span></td>
+        </tr>
+        <tr>
+          <td>基本每股收益</td>
+          <td>1.66元</td>
+          <td>2.49元</td>
+          <td><span class="tag green">+50.00%</span></td>
+        </tr>
+        <tr>
+          <td>经营活动现金流净额</td>
+          <td>20.33亿元</td>
+          <td>21.29亿元</td>
+          <td><span class="tag green">+4.72%</span></td>
+        </tr>
+        <tr>
+          <td>研发投入</td>
+          <td>~11.6亿元</td>
+          <td>14.04亿元</td>
+          <td><span class="tag green">+21.0%</span></td>
+        </tr>
+        <tr>
+          <td>研发投入占营收比</td>
+          <td>~15.8%</td>
+          <td>15.26%</td>
+          <td><span class="tag yellow">略有下降</span></td>
+        </tr>
+        <tr>
+          <td>加权平均ROE</td>
+          <td>6.94%</td>
+          <td>~9.5%（估算）</td>
+          <td><span class="tag green">显著提升</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>三、2025年分季度业绩趋势</h3>
+    <table>
+      <thead>
+        <tr><th>季度</th><th>净利润（亿元）</th><th>趋势</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Q1</td><td>2.35</td><td>—</td></tr>
+        <tr><td>Q2</td><td>3.41</td><td><span class="tag green">环比+45%</span></td></tr>
+        <tr><td>Q3</td><td>5.08</td><td><span class="tag green">环比+49%</span></td></tr>
+        <tr><td>Q4</td><td>5.65</td><td><span class="tag green">环比+11%</span></td></tr>
+      </tbody>
+    </table>
+    <div class="alert info">
+      📈 <b>基本面亮点</b>：2025年业绩呈逐季加速改善态势，下半年净利润合计10.73亿元（占全年65%），Q3单季营收26.81亿元为全年最高。利润增速（49.5%）远超营收增速（25.1%），表明利润率持续改善，经营杠杆效应显著。
+    </div>
+
+    <h3>四、业务结构与竞争力</h3>
+    <ul class="clean">
+      <li><b>NOR Flash</b>：全球排名前三，2024年收入51.94亿元（占营收71%），毛利率40.27%，同比增长7.28pct</li>
+      <li><b>MCU</b>：国内32位ARM MCU龙头，产品线覆盖车规级、工业级、消费级</li>
+      <li><b>传感器</b>：指纹识别芯片等，受益于智能手机复苏</li>
+      <li><b>利基DRAM</b>：代销长鑫存储DRAM产品，打开新增长曲线</li>
+      <li><b>研发实力</b>：研发人员1533人（占比65.71%），2025年研发投入14.04亿元</li>
+    </ul>
+
+    <h3>五、分红历史</h3>
+    <table>
+      <thead>
+        <tr><th>年度</th><th>每股现金分红(税前)</th><th>送转股</th><th>股息率(对当时股价)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2025年度</td><td>0.75元</td><td>—</td><td>~0.05%</td></tr>
+        <tr><td>2024年度</td><td>0.34元</td><td>—</td><td>~0.14%</td></tr>
+        <tr><td>2022年度</td><td>0.62元</td><td>—</td><td>~0.23%</td></tr>
+        <tr><td>2021年度</td><td>1.06元</td><td>—</td><td>~0.45%</td></tr>
+        <tr><td>2020年度</td><td>0.56元</td><td>10转4</td><td>~0.27%</td></tr>
+      </tbody>
+    </table>
+    <div class="alert warning">
+      ⚠️ <b>分红偏低</b>：公司分红率极低，利润主要用于研发再投入。当前694.81元价位对应股息率仅约0.05%，完全不具备分红投资价值。
+    </div>
+  </div>
+
+  <!-- 技术面分析 -->
+  <div class="card">
+    <h2>📈 技术面分析</h2>
+
+    <h3>一、均线系统</h3>
+    <table>
+      <thead>
+        <tr><th>均线</th><th>数值</th><th>当前价偏离</th><th>信号</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>MA5</td><td>778.36</td><td style="color:#c53030">-10.73%</td><td><span class="tag red">跌破</span></td></tr>
+        <tr><td>MA10</td><td>733.18</td><td style="color:#c53030">-5.23%</td><td><span class="tag red">跌破</span></td></tr>
+        <tr><td>MA20</td><td>620.31</td><td style="color:#2f855a">+12.01%</td><td><span class="tag green">上方</span></td></tr>
+        <tr><td>MA60</td><td>445.77</td><td style="color:#2f855a">+55.87%</td><td><span class="tag green">上方</span></td></tr>
+        <tr><td>MA120</td><td>363.16</td><td style="color:#2f855a">+91.32%</td><td><span class="tag green">上方</span></td></tr>
+      </tbody>
+    </table>
+    <div class="alert warning">
+      ⚠️ <b>短期均线破位</b>：今日跌停导致股价跌破MA5和MA10，短期技术形态遭到破坏。但MA20、MA60、MA120仍在上行，中期趋势尚未逆转。均线排列已从多头转为短期空头。
+    </div>
+
+    <h3>二、MACD指标</h3>
+    <div class="data-grid">
+      <div class="data-item"><div class="label">DIF</div><div class="value">88.56</div></div>
+      <div class="data-item"><div class="label">DEA</div><div class="value">67.09</div></div>
+      <div class="data-item up"><div class="label">MACD柱</div><div class="value">42.94</div><div class="extra">红柱（多头）</div></div>
+    </div>
+    <p style="font-size:14px; color:#4a5568; margin-top:8px;">
+      DIF > DEA，MACD红柱仍在，表明中期上涨动能尚未完全消失。但今日跌停后DIF有望快速回落，需关注后续是否出现MACD死叉信号。
+    </p>
+
+    <h3>三、RSI指标</h3>
+    <div class="data-grid">
+      <div class="data-item"><div class="label">RSI6</div><div class="value">48.23</div><div class="extra">中性偏弱</div></div>
+      <div class="data-item warn"><div class="label">RSI12</div><div class="value">65.37</div><div class="extra">中性偏强</div></div>
+      <div class="data-item warn"><div class="label">RSI24</div><div class="value">63.30</div><div class="extra">中性偏强</div></div>
+    </div>
+    <p style="font-size:14px; color:#4a5568; margin-top:8px;">
+      RSI6从超买区快速回落至48附近，短期超买已修正。但RSI12和RSI24仍在60以上，说明中期超买状态尚未完全消化。
+    </p>
+
+    <h3>四、KDJ指标</h3>
+    <div class="data-grid">
+      <div class="data-item warn"><div class="label">K值</div><div class="value">42.35</div></div>
+      <div class="data-item warn"><div class="label">D值</div><div class="value">47.45</div></div>
+      <div class="data-item down"><div class="label">J值</div><div class="value">32.15</div></div>
+    </div>
+    <p style="font-size:14px; color:#4a5568; margin-top:8px;">
+      KDJ三线向下发散，J值已降至32，K < D形成死叉。短期仍有下探空间，但J值接近超卖区域（20以下），继续大幅下跌空间可能有限。
+    </p>
+
+    <h3>五、布林带（BOLL）</h3>
+    <div class="data-grid">
+      <div class="data-item"><div class="label">上轨</div><div class="value">870.09</div></div>
+      <div class="data-item"><div class="label">中轨(MA20)</div><div class="value">620.31</div></div>
+      <div class="data-item"><div class="label">下轨</div><div class="value">370.54</div></div>
+      <div class="data-item warn"><div class="label">当前价位置</div><div class="value">80.03%</div><div class="extra">处于布林带上半区</div></div>
+    </div>
+    <p style="font-size:14px; color:#4a5568; margin-top:8px;">
+      布林带极度开口（上轨870 vs 下轨371），表明近期波动率极高。当前价位于布林带80%位置，处于中轨与上轨之间，尚未跌破中轨支撑。
+    </p>
+
+    <h3>六、价格走势与涨跌统计</h3>
+    <div class="data-grid">
+      <div class="data-item down"><div class="label">近5日涨跌</div><div class="value">-10.37%</div></div>
+      <div class="data-item up"><div class="label">近20日涨跌</div><div class="value">+41.16%</div></div>
+      <div class="data-item up"><div class="label">近60日涨跌</div><div class="value">+181.31%</div></div>
+      <div class="data-item up"><div class="label">自2025年6月以来</div><div class="value">+515.53%</div></div>
+      <div class="data-item down"><div class="label">距区间最高</div><div class="value">-17.28%</div><div class="extra">最高840元</div></div>
+      <div class="data-item up"><div class="label">距区间最低</div><div class="value">+515.53%</div><div class="extra">最低112.88元</div></div>
+    </div>
+
+    <div class="alert danger">
+      🚨 <b>短期暴涨风险极高</b>：过去60日涨幅高达181%，自2025年6月以来累计涨幅超515%。今日跌停（-10%）是近期首次显著调整，说明获利盘抛压开始释放。股价从112元涨至840元后回落至695元，短期涨幅过大，技术面存在强烈的回调需求。
+    </div>
+  </div>
+
+  <!-- 走势图 -->
+  <div class="card">
+    <h2>📉 近13个月日线走势图</h2>
+    <svg class="price-chart" viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- 背景 -->
+      <rect width="900" height="280" fill="#fafbfc" rx="8"/>
+
+      <!-- 标题 -->
+      <text x="20" y="25" font-size="13" font-weight="600" fill="#2d3748">兆易创新 2025.06 ~ 2026.07 日线收盘价走势</text>
+
+      <!-- Y轴标签 -->
+      <text x="860" y="50" font-size="10" fill="#a0aec0" text-anchor="end">840</text>
+      <text x="860" y="120" font-size="10" fill="#a0aec0" text-anchor="end">500</text>
+      <text x="860" y="190" font-size="10" fill="#a0aec0" text-anchor="end">250</text>
+      <text x="860" y="260" font-size="10" fill="#a0aec0" text-anchor="end">112</text>
+
+      <!-- 网格线 -->
+      <line x1="40" y1="45" x2="850" y2="45" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="3,3"/>
+      <line x1="40" y1="115" x2="850" y2="115" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="3,3"/>
+      <line x1="40" y1="185" x2="850" y2="185" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="3,3"/>
+      <line x1="40" y1="255" x2="850" y2="255" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+      <!-- 价格走势线 (简化，用关键节点描绘趋势) -->
+      <polyline points="40,255 70,252 100,248 130,242 160,240 190,238 220,230 250,222 280,195 310,160 340,135 370,150 400,120 430,95 460,110 490,100 520,85 550,90 580,75 610,100 640,130 670,80 700,55 730,45 760,35 790,38 820,42 850,50"
+        fill="none" stroke="#667eea" stroke-width="2"/>
+
+      <!-- 填充区域 -->
+      <polygon points="40,255 70,252 100,248 130,242 160,240 190,238 220,230 250,222 280,195 310,160 340,135 370,150 400,120 430,95 460,110 490,100 520,85 550,90 580,75 610,100 640,130 670,80 700,55 730,45 760,35 790,38 820,42 850,50 850,270 40,270"
+        fill="#667eea" fill-opacity="0.08"/>
+
+      <!-- 当前价标记 -->
+      <circle cx="850" cy="50" r="4" fill="#f56565"/>
+      <text x="845" y="42" font-size="11" font-weight="700" fill="#c53030" text-anchor="end">694.81</text>
+
+      <!-- 最高点标记 -->
+      <circle cx="760" cy="35" r="4" fill="#48bb78"/>
+      <text x="755" y="27" font-size="11" font-weight="700" fill="#2f855a" text-anchor="end">840.00</text>
+
+      <!-- 最低点标记 -->
+      <circle cx="40" cy="255" r="4" fill="#f56565"/>
+      <text x="45" y="270" font-size="11" font-weight="700" fill="#c53030">112.88</text>
+
+      <!-- X轴日期标签 -->
+      <text x="40" y="275" font-size="9" fill="#a0aec0">25.06</text>
+      <text x="220" y="275" font-size="9" fill="#a0aec0">25.09</text>
+      <text x="400" y="275" font-size="9" fill="#a0aec0">25.12</text>
+      <text x="580" y="275" font-size="9" fill="#a0aec0">26.03</text>
+      <text x="760" y="275" font-size="9" fill="#a0aec0">26.06</text>
+
+      <!-- 涨幅标注 -->
+      <text x="450" y="20" font-size="12" font-weight="700" fill="#667eea">+515% (13个月)</text>
+    </svg>
+    <p style="font-size:12px; color:#a0aec0; text-align:center; margin-top:8px;">数据来源：Tushare（通达信金融数据）| 制图：AI智能分析</p>
+  </div>
+
+  <!-- 综合评分 -->
+  <div class="card">
+    <h2>🎯 多维度综合评分</h2>
+    <div class="score-board">
+      <div class="score-item s-high">
+        <div class="score-label">基本面质量</div>
+        <div class="score-value">82</div>
+        <div class="score-max">/100</div>
+      </div>
+      <div class="score-item s-low">
+        <div class="score-label">技术面信号</div>
+        <div class="score-value">38</div>
+        <div class="score-max">/100</div>
+      </div>
+      <div class="score-item s-mid">
+        <div class="score-label">资金面强度</div>
+        <div class="score-value">55</div>
+        <div class="score-max">/100</div>
+      </div>
+      <div class="score-item s-low">
+        <div class="score-label">估值吸引力</div>
+        <div class="score-value">20</div>
+        <div class="score-max">/100</div>
+      </div>
+      <div class="score-item s-mid">
+        <div class="score-label">事件催化</div>
+        <div class="score-value">65</div>
+        <div class="score-max">/100</div>
+      </div>
+    </div>
+
+    <div class="total-score">
+      <div class="label">综合加权总分</div>
+      <div class="value">52 / 100</div>
+      <div style="font-size:14px; color:#718096; margin-top:4px;">中性偏谨慎</div>
+    </div>
+
+    <h3>评分依据</h3>
+    <table>
+      <thead>
+        <tr><th>维度</th><th>权重</th><th>得分</th><th>核心判断</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>基本面质量</td>
+          <td>25%</td>
+          <td>82分</td>
+          <td>营收+25%、净利+49%高增长，逐季加速，研发投入大，行业地位突出</td>
+        </tr>
+        <tr>
+          <td>技术面信号</td>
+          <td>25%</td>
+          <td>38分</td>
+          <td>60日涨181%短期严重超买，今日跌停破MA5/MA10，KDJ死叉，回调压力大</td>
+        </tr>
+        <tr>
+          <td>资金面强度</td>
+          <td>20%</td>
+          <td>55分</td>
+          <td>换手率6.77%活跃，但跌停日大资金出逃迹象明显（资金数据接口受限，此为估测）</td>
+        </tr>
+        <tr>
+          <td>估值吸引力</td>
+          <td>15%</td>
+          <td>20分</td>
+          <td>PE(TTM) 170x、PB 19x极度高估，远超半导体行业合理水平，安全边际极低</td>
+        </tr>
+        <tr>
+          <td>事件催化</td>
+          <td>15%</td>
+          <td>65分</td>
+          <td>AI驱动存储芯片需求复苏、汽车电子渗透、国产替代加速等长期逻辑成立</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 综合结论 -->
+  <div class="conclusion">
+    <h3>📋 综合结论与建议</h3>
+
+    <h3 style="color:#2d3748;">✅ 基本面评价：优秀</h3>
+    <p style="font-size:14px; color:#4a5568;">
+      兆易创新基本面扎实，是国内半导体设计领域的核心标的。2025年营收92亿（+25%）、净利16.5亿（+49%），业绩逐季加速改善，利润率持续提升。
+      NOR Flash全球前三、MCU国内龙头，AI+汽车电子+国产替代三重逻辑共振，长期成长逻辑清晰。研发投入占比超15%，护城河持续加深。
+    </p>
+
+    <h3 style="color:#c53030; margin-top:16px;">⚠️ 技术面评价：短期高危</h3>
+    <p style="font-size:14px; color:#4a5568;">
+      但技术面风险已极高：13个月涨幅515%、60日涨181%，短期严重超买。今日跌停（-10%）标志着调整正式启动，
+      MA5/MA10双双跌破，KDJ死叉向下，RSI6快速回落。虽然MA20（620元）和MA60（446元）仍提供中期支撑，
+      但短期仍有进一步下探空间。
+    </p>
+
+    <h3 style="color:#c05621; margin-top:16px;">💰 估值评价：严重高估</h3>
+    <p style="font-size:14px; color:#4a5568;">
+      PE(TTM) 170倍、PB 19倍，即使考虑2025年49%的利润增速，PEG也高达3.4以上，远超合理范围。
+      当前估值已透支未来2-3年的增长预期，安全边际几乎为零。
+    </p>
+
+    <div class="alert danger" style="margin-top:16px;">
+      💡 <b>建议操作方向：等待回调，严禁追涨</b><br/><br/>
+      1. <b>短线投资者</b>：今日跌停是强烈的卖出信号，持筹者应考虑减仓避险，空仓者切勿抄底<br/>
+      2. <b>中线投资者</b>：关注MA20（620元）和MA60（446元）两个关键支撑位，若回调至400-500元区间可考虑分批建仓<br/>
+      3. <b>长线投资者</b>：公司基本面优秀，但当前估值过高。建议耐心等待估值回归至合理区间（PE 50-60x，对应股价约200-250元）再考虑布局<br/>
+      4. <b>关键风险</b>：半导体周期见顶回落、存储芯片价格下跌、中美科技摩擦加剧
+    </div>
+  </div>
+
+  <!-- 风险提示 -->
+  <div class="card">
+    <h2>⚠️ 风险提示</h2>
+    <ul class="clean">
+      <li><b>估值风险</b>：PE 170x、PB 19x处于历史极高位，一旦业绩增速放缓或市场风格切换，存在大幅杀估值风险</li>
+      <li><b>技术面风险</b>：短期涨幅过大（60日+181%），获利盘巨大，跌停后可能引发连锁抛售</li>
+      <li><b>行业周期风险</b>：半导体行业具有强周期性，存储芯片价格波动大，2025年高增长可能难以持续</li>
+      <li><b>地缘政治风险</b>：公司部分原材料和设备依赖进口，中美科技摩擦可能影响供应链</li>
+      <li><b>流动性风险</b>：虽然流通市值大，但在暴跌时流动性可能急剧收缩</li>
+      <li><b>分红极低</b>：股息率仅0.05%，投资者完全依赖资本利得，缺乏分红缓冲</li>
+    </ul>
+  </div>
+
+  <!-- 数据说明 -->
+  <div class="card">
+    <h2>📝 数据来源与说明</h2>
+    <ul class="clean">
+      <li><b>行情数据</b>：Tushare（通达信金融数据）日线行情接口，截至 2026-07-02</li>
+      <li><b>估值数据</b>：Tushare 每日指标接口（daily_basic），2026-07-02</li>
+      <li><b>财务数据</b>：公开年报信息整理（2024年报、2025年报），来源同花顺/东方财富</li>
+      <li><b>分红数据</b>：Tushare 分红送股接口</li>
+      <li><b>技术指标</b>：基于日线收盘价自行计算（MA/MACD/RSI/KDJ/BOLL），因Tushare技术因子接口权限受限</li>
+      <li><b>资金流向</b>：Tushare资金流向接口权限受限，资金面评分为综合估测</li>
+      <li><b>前十大股东</b>：Tushare接口权限受限，未纳入分析</li>
+    </ul>
+    <div class="alert info" style="margin-top:12px;">
+      📌 <b>数据时间戳</b>：行情数据截至 2026-07-02 收盘 | 财务数据截至 2025年年报（2026年3月30日公告）
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>⚠️ 以上内容由 AI 基于通达信金融数据整理生成，仅供参考，不构成任何投资建议或个股推荐。投资有风险，决策需谨慎。</p>
+    <p>Generated by WorkBuddy AI | 2026-07-02</p>
+  </div>
+
+</div>
+</body>
+</html>
